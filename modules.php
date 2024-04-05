@@ -19,21 +19,25 @@
       echo template("templates/partials/header.php");
       echo template("templates/partials/nav.php");
 
-      // Build SQL statment that selects a student's modules
-      $sql = "select * from studentmodules sm, module m where m.modulecode = sm.modulecode and sm.studentid = '" . $_SESSION['id'] ."';";
+      // Build SQL statement that selects a student's modules using prepared statements
+$stmt = $conn->prepare("SELECT m.modulecode, m.name, m.level FROM studentmodules sm JOIN module m ON m.modulecode = sm.modulecode WHERE sm.studentid = ?");
+$stmt->bind_param("s", $_SESSION['id']); // 's' specifies the variable type => 'string'
 
-      $result = mysqli_query($conn,$sql);
+$stmt->execute();
+$result = $stmt->get_result();
 
-      // prepare page content
-      $data['content'] .= "<table border='1'>";
-      $data['content'] .= "<tr><th colspan='5' align='center'>Modules</th></tr>";
-      $data['content'] .= "<tr><th>Code</th><th>Type</th><th>Level</th></tr>";
-      // Display the modules within the html table
-      while($row = mysqli_fetch_array($result)) {
-         $data['content'] .= "<tr><td> $row[modulecode] </td><td> $row[name] </td>";
-         $data['content'] .= "<td> $row[level] </td></tr>";
-      }
-      $data['content'] .= "</table>";
+// prepare page content
+$data['content'] .= "<table border='1'>";
+$data['content'] .= "<tr><th colspan='3' align='center'>Modules</th></tr>";
+$data['content'] .= "<tr><th>Code</th><th>Name</th><th>Level</th></tr>";
+// Display the modules within the HTML table
+while ($row = $result->fetch_assoc()) {
+    $data['content'] .= "<tr><td>" . htmlspecialchars($row['modulecode']) . "</td>";
+    $data['content'] .= "<td>" . htmlspecialchars($row['name']) . "</td>";
+    $data['content'] .= "<td>" . htmlspecialchars($row['level']) . "</td></tr>";
+}
+$data['content'] .= "</table>";
+
 
       // render the template
       echo template("templates/default.php", $data);

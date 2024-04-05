@@ -32,14 +32,18 @@
                 $data['content'] = "<p class='text-success'>Your details have been updated</p>";
             } else {
                 // Build a SQL statement to return the student record with the id that
-                // matches that of the session variable.
-                $sql = "SELECT * FROM student WHERE studentid='" . $_SESSION['id'] . "';";
-                $result = mysqli_query($conn, $sql);
-                $row = mysqli_fetch_array($result);
-                // using <<<EOD notation to allow building of a multi-line string
-                // see http://stackoverflow.com/questions/6924193/what-is-the-use-of-eod-in-php for info
-                // also http://stackoverflow.com/questions/8280360/formatting-an-array-value-inside-a-heredoc
-                $data['content'] = <<<EOD
+                // matches that of the session variable using prepared statements.
+                $stmt = $conn->prepare("SELECT * FROM student WHERE studentid = ?");
+                $stmt->bind_param("s", $_SESSION['id']); // 's' specifies the variable type => 'string'
+
+                $stmt->execute();
+                $result = $stmt->get_result();
+                $row = $result->fetch_assoc();
+
+               // You can continue with your HEREDOC notation or any other operation with $row
+              // For example, using HEREDOC to build a string with student information:
+               $data['content'] = <<<EOD
+
                 <form name="frmdetails" action="" method="post">
                     <div class="form-group">
                         <label for="txtfirstname">First Name</label>
