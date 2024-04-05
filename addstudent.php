@@ -62,9 +62,9 @@
                         <input type="text" class="form-control" id="postcode" name="postcode">
                     </div>
                     <div class="form-group">
-                        <label for="image">Student Image:</label>
-                        <input type="file" class="form-control-file" id="image" name="image">
-                    </div>
+    <label for="image">Student Image:</label>
+    <input type="file" class="form-control-file" id="image" name="image">
+</div>
                     <button type="submit" class="btn btn-primary btn-block btn-lg">Add Student</button>
                 </form>
             </div>

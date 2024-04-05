@@ -59,36 +59,36 @@ echo template("templates/partials/nav.php");
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                    $sql = "SELECT * FROM student";
-                    $result = $conn->query($sql);
-                    if ($result->num_rows > 0) {
-                        while ($row = $result->fetch_assoc()) {
-                            echo "<tr>";
-                            echo "<td><input type='checkbox' name='selected_students[]' value='" . $row["studentid"] . "'></td>";
-                            echo "<td>" . htmlspecialchars($row["studentid"]) . "</td>";
-                            echo "<td>[Protected]</td>"; // Do not display passwords
-                            echo "<td>" . htmlspecialchars($row["dob"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["firstname"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["lastname"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["house"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["town"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["county"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["country"]) . "</td>";
-                            echo "<td>" . htmlspecialchars($row["postcode"]) . "</td>";
-                            if (!empty($row["image_path"])) {
-                                echo "<td><img src='" . htmlspecialchars($row["image_path"]) . "' alt='Student Image' class='img-fluid' style='max-width: 100px;'></td>";
-                            } else {
-                                echo "<td>No image available</td>";
-                            }
-                            echo "<td><a href='editStudent.php?studentid=" . urlencode($row["studentid"]) . "' class='btn btn-sm btn-primary'>Edit</a></td>";
-                            echo "</tr>";
-                        }
-                    } else {
-                        echo "<tr><td colspan='13' class='text-center'>No records found</td></tr>";
-                    }
-                    ?>
-                </tbody>
+    <?php
+    $sql = "SELECT * FROM student";
+    $result = $conn->query($sql);
+    if ($result->num_rows > 0) {
+        while ($row = $result->fetch_assoc()) {
+            echo "<tr>";
+            echo "<td><input type='checkbox' name='selected_students[]' value='" . $row["studentid"] . "'></td>";
+            echo "<td>" . htmlspecialchars($row["studentid"]) . "</td>";
+            echo "<td>[Protected]</td>"; // Do not display passwords
+            echo "<td>" . htmlspecialchars($row["dob"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["firstname"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["lastname"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["house"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["town"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["county"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["country"]) . "</td>";
+            echo "<td>" . htmlspecialchars($row["postcode"]) . "</td>";
+            if (!empty($row["image_path"])) {
+                echo "<td><img src='" . htmlspecialchars($row["image_path"]) . "' alt='Student Image' class='img-fluid' style='max-width: 100px;'></td>";
+            } else {
+                echo "<td>No image available</td>";
+            }
+            echo "<td><a href='editStudent.php?studentid=" . urlencode($row["studentid"]) . "' class='btn btn-sm btn-primary'>Edit</a></td>";
+            echo "</tr>";
+        }
+    } else {
+        echo "<tr><td colspan='13' class='text-center'>No records found</td></tr>";
+    }
+    ?>
+</tbody>
             </table>
         </form>
     </div>
